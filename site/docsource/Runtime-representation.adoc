@@ -1,8 +1,8 @@
 
 ## Runtime representation
 
-Below is a description of how OCaml values are encoded in JavaScript, 
-the *internal* description means **users should not rely on its actual 
+Below is a description of how OCaml values are encoded in JavaScript,
+the *internal* description means **users should not rely on its actual
 encoding (and it is subject to change)**. We recommend that you write
 setter/getter functions to manipulate safely OCaml values from JavaScript.
 
@@ -21,6 +21,8 @@ JavaScript; instead, the OCaml stdlib provides three functions: `List.cons`, `Li
 | nativeint | number
 | int32 | number
 | float | number
+| string | string
+| 'a array | Array
 | bool  a| number
 
 - true -> 1
@@ -33,12 +35,11 @@ JavaScript; instead, the OCaml stdlib provides three functions: `List.cons`, `Li
 for example:
 
 - 'a' -> `97`
-| string | string
-| bytes  a| number array
 
+| bytes  a| number array
 NOTE: We might encode it as buffer  in NodeJS.
 
-| 'a array | Array
+
 | record   a| Array *internal*
 
 For instance:
