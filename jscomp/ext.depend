@@ -1,0 +1,108 @@
+ext/ext_array.cmo : ext/ext_array.cmi
+ext/ext_array.cmx : ext/ext_array.cmi
+ext/ext_bytes.cmo : ext/ext_bytes.cmi
+ext/ext_bytes.cmx : ext/ext_bytes.cmi
+ext/ext_char.cmo : ext/ext_char.cmi
+ext/ext_char.cmx : ext/ext_char.cmi
+ext/ext_file_pp.cmo : ext/ext_file_pp.cmi
+ext/ext_file_pp.cmx : ext/ext_file_pp.cmi
+ext/ext_filename.cmo : ext/literals.cmi ext/ext_string.cmi \
+    ext/ext_pervasives.cmi ext/ext_filename.cmi
+ext/ext_filename.cmx : ext/literals.cmx ext/ext_string.cmx \
+    ext/ext_pervasives.cmx ext/ext_filename.cmi
+ext/ext_format.cmo : ext/ext_format.cmi
+ext/ext_format.cmx : ext/ext_format.cmi
+ext/ext_hashtbl.cmo : ext/ext_hashtbl.cmi
+ext/ext_hashtbl.cmx : ext/ext_hashtbl.cmi
+ext/ext_ident.cmo : ext/string_set.cmi ext/ext_string.cmi ext/ext_ident.cmi
+ext/ext_ident.cmx : ext/string_set.cmx ext/ext_string.cmx ext/ext_ident.cmi
+ext/ext_io.cmo : ext/ext_pervasives.cmi ext/ext_io.cmi
+ext/ext_io.cmx : ext/ext_pervasives.cmx ext/ext_io.cmi
+ext/ext_list.cmo : ext/ext_list.cmi
+ext/ext_list.cmx : ext/ext_list.cmi
+ext/ext_map.cmo : ext/ext_map.cmi
+ext/ext_map.cmx : ext/ext_map.cmi
+ext/ext_marshal.cmo : ext/ext_marshal.cmi
+ext/ext_marshal.cmx : ext/ext_marshal.cmi
+ext/ext_option.cmo : ext/ext_option.cmi
+ext/ext_option.cmx : ext/ext_option.cmi
+ext/ext_pervasives.cmo : ext/ext_pervasives.cmi
+ext/ext_pervasives.cmx : ext/ext_pervasives.cmi
+ext/ext_pp.cmo : ext/ext_pervasives.cmi ext/ext_pp.cmi
+ext/ext_pp.cmx : ext/ext_pervasives.cmx ext/ext_pp.cmi
+ext/ext_pp_scope.cmo : ext/string_map.cmi ext/int_map.cmi ext/ident_set.cmi \
+    ext/ext_pp_scope.cmi
+ext/ext_pp_scope.cmx : ext/string_map.cmx ext/int_map.cmx ext/ident_set.cmx \
+    ext/ext_pp_scope.cmi
+ext/ext_ref.cmo : ext/ext_ref.cmi
+ext/ext_ref.cmx : ext/ext_ref.cmi
+ext/ext_string.cmo : ext/ext_bytes.cmi ext/ext_string.cmi
+ext/ext_string.cmx : ext/ext_bytes.cmx ext/ext_string.cmi
+ext/ext_sys.cmo : ext/ext_sys.cmi
+ext/ext_sys.cmx : ext/ext_sys.cmi
+ext/hash_set.cmo : ext/hash_set.cmi
+ext/hash_set.cmx : ext/hash_set.cmi
+ext/ident_set.cmo : ext/ext_format.cmi ext/ident_set.cmi
+ext/ident_set.cmx : ext/ext_format.cmx ext/ident_set.cmi
+ext/int_map.cmo : ext/int_map.cmi
+ext/int_map.cmx : ext/int_map.cmi
+ext/literals.cmo : ext/literals.cmi
+ext/literals.cmx : ext/literals.cmi
+ext/string_map.cmo : ext/string_map.cmi
+ext/string_map.cmx : ext/string_map.cmi
+ext/string_set.cmo : ext/string_set.cmi
+ext/string_set.cmx : ext/string_set.cmi
+ext/ext_array.cmo : ext/ext_array.cmi
+ext/ext_array.cmx : ext/ext_array.cmi
+ext/ext_bytes.cmo : ext/ext_bytes.cmi
+ext/ext_bytes.cmx : ext/ext_bytes.cmi
+ext/ext_char.cmo : ext/ext_char.cmi
+ext/ext_char.cmx : ext/ext_char.cmi
+ext/ext_file_pp.cmo : ext/ext_file_pp.cmi
+ext/ext_file_pp.cmx : ext/ext_file_pp.cmi
+ext/ext_filename.cmo : ext/literals.cmi ext/ext_string.cmi \
+    ext/ext_pervasives.cmi ext/ext_filename.cmi
+ext/ext_filename.cmx : ext/literals.cmx ext/ext_string.cmx \
+    ext/ext_pervasives.cmx ext/ext_filename.cmi
+ext/ext_format.cmo : ext/ext_format.cmi
+ext/ext_format.cmx : ext/ext_format.cmi
+ext/ext_hashtbl.cmo : ext/ext_hashtbl.cmi
+ext/ext_hashtbl.cmx : ext/ext_hashtbl.cmi
+ext/ext_ident.cmo : ext/string_set.cmi ext/ext_string.cmi ext/ext_ident.cmi
+ext/ext_ident.cmx : ext/string_set.cmx ext/ext_string.cmx ext/ext_ident.cmi
+ext/ext_io.cmo : ext/ext_pervasives.cmi ext/ext_io.cmi
+ext/ext_io.cmx : ext/ext_pervasives.cmx ext/ext_io.cmi
+ext/ext_list.cmo : ext/ext_list.cmi
+ext/ext_list.cmx : ext/ext_list.cmi
+ext/ext_map.cmo : ext/ext_map.cmi
+ext/ext_map.cmx : ext/ext_map.cmi
+ext/ext_marshal.cmo : ext/ext_marshal.cmi
+ext/ext_marshal.cmx : ext/ext_marshal.cmi
+ext/ext_option.cmo : ext/ext_option.cmi
+ext/ext_option.cmx : ext/ext_option.cmi
+ext/ext_pervasives.cmo : ext/ext_pervasives.cmi
+ext/ext_pervasives.cmx : ext/ext_pervasives.cmi
+ext/ext_pp.cmo : ext/ext_pervasives.cmi ext/ext_pp.cmi
+ext/ext_pp.cmx : ext/ext_pervasives.cmx ext/ext_pp.cmi
+ext/ext_pp_scope.cmo : ext/string_map.cmi ext/int_map.cmi ext/ident_set.cmi \
+    ext/ext_pp_scope.cmi
+ext/ext_pp_scope.cmx : ext/string_map.cmx ext/int_map.cmx ext/ident_set.cmx \
+    ext/ext_pp_scope.cmi
+ext/ext_ref.cmo : ext/ext_ref.cmi
+ext/ext_ref.cmx : ext/ext_ref.cmi
+ext/ext_string.cmo : ext/ext_bytes.cmi ext/ext_string.cmi
+ext/ext_string.cmx : ext/ext_bytes.cmx ext/ext_string.cmi
+ext/ext_sys.cmo : ext/ext_sys.cmi
+ext/ext_sys.cmx : ext/ext_sys.cmi
+ext/hash_set.cmo : ext/hash_set.cmi
+ext/hash_set.cmx : ext/hash_set.cmi
+ext/ident_set.cmo : ext/ext_format.cmi ext/ident_set.cmi
+ext/ident_set.cmx : ext/ext_format.cmx ext/ident_set.cmi
+ext/int_map.cmo : ext/int_map.cmi
+ext/int_map.cmx : ext/int_map.cmi
+ext/literals.cmo : ext/literals.cmi
+ext/literals.cmx : ext/literals.cmi
+ext/string_map.cmo : ext/string_map.cmi
+ext/string_map.cmx : ext/string_map.cmi
+ext/string_set.cmo : ext/string_set.cmi
+ext/string_set.cmx : ext/string_set.cmi
