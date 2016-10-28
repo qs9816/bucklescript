@@ -941,6 +941,12 @@ val absolute_path : string -> string
 
 val module_name_of_file_if_any : string -> string
 
+(**
+   1. add some simplifications when concatenating
+   2. when the second one is absolute, drop the first one
+*)
+val combine : string -> string -> string
+
 end = struct
 #1 "ext_filename.ml"
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
@@ -1172,6 +1178,13 @@ let module_name_of_file_if_any file =
   *)
 (* let has_exact_suffix_then_chop fname suf =  *)
   
+let combine p1 p2 = 
+  if p1 = "" || p1 = Filename.current_dir_name then p2 else 
+  if p2 = "" || p2 = Filename.current_dir_name then p1 
+  else 
+  if Filename.is_relative p2 then 
+    Filename.concat p1 p2 
+  else p2 
 
 end
 module String_map : sig 
@@ -1329,7 +1342,7 @@ val read_build_cache : string -> t
 
 val bsbuild_cache : string
 
-val simple_concat : string -> string -> string
+
 
 
 
@@ -1430,16 +1443,12 @@ let module_info_of_mll exist mll : module_info =
   | None -> { mll  = Some mll ; ml = Ml_empty ; mli = Mli_empty }
   | Some x -> { x with mll = Some mll} 
 
-let simple_concat (x : string)  y =
-  if x = Filename.current_dir_name then y else 
-  if y = Filename.current_dir_name then x else 
-    Filename.concat x y
 
 let map_update ?dir (map : t)  name : t  = 
   let prefix   = 
     match dir with
     | None -> fun x ->  x
-    | Some v -> fun x ->  simple_concat v x in
+    | Some v -> fun x ->  Ext_filename.combine v x in
   let module_name = Ext_filename.module_name_of_file_if_any name in 
   let handle name v cb =
     String_map.add module_name
@@ -2768,7 +2777,7 @@ type 'a file_group =
     sources : 'a
   } 
 
-let (//) = Binary_cache.simple_concat
+let (//) = Ext_filename.combine
 
 let (|?)  m (key, cb) =
     m  |> Bs_json.test key cb 
@@ -3328,7 +3337,7 @@ let output_kvs kvs oc =
 
 
 
-let (//) = Binary_cache.simple_concat
+let (//) = Ext_filename.combine
 
 let handle_module_info builddir oc 
     ({mli; ml; mll } : Binary_cache.module_info) (all_deps, all_cmis) =  
@@ -3952,7 +3961,7 @@ let config_file = "bsconfig.json"
 let config_file_bak = "bsconfig.json.bak"
 let ninja = "ninja" 
 let bsdeps = ".bsdeps"
-let (//) = Binary_cache.simple_concat
+let (//) = Ext_filename.combine
 let get_list_string s = 
   Ext_array.to_list_map (fun (x : Bs_json.t) ->
       match x with 

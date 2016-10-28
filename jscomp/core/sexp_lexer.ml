@@ -1,4 +1,4 @@
-# 1 "sexp_lexer.gen.mll"
+# 1 "core/sexp_lexer.gen.mll"
  
 
 type error =
@@ -97,7 +97,7 @@ let new_rparen  buf lexbuf =
 let get_data buf = buf.top
 
 
-# 101 "sexp_lexer.ml"
+# 101 "core/sexp_lexer.ml"
 let __ocaml_lex_tables = {
   Lexing.lex_base = 
    "\000\000\246\255\247\255\078\000\249\255\250\255\251\255\002\000\
@@ -273,48 +273,48 @@ let rec main buf lexbuf =
 and __ocaml_lex_main_rec buf lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 111 "sexp_lexer.gen.mll"
+# 111 "core/sexp_lexer.gen.mll"
                      ( 
     update_loc lexbuf 0;
     main (buf : st ) lexbuf  )
-# 281 "sexp_lexer.ml"
+# 281 "core/sexp_lexer.ml"
 
   | 1 ->
-# 114 "sexp_lexer.gen.mll"
+# 114 "core/sexp_lexer.gen.mll"
            ( main buf lexbuf  )
-# 286 "sexp_lexer.ml"
+# 286 "core/sexp_lexer.ml"
 
   | 2 ->
-# 115 "sexp_lexer.gen.mll"
+# 115 "core/sexp_lexer.gen.mll"
                        (  main buf lexbuf )
-# 291 "sexp_lexer.ml"
+# 291 "core/sexp_lexer.ml"
 
   | 3 ->
-# 116 "sexp_lexer.gen.mll"
+# 116 "core/sexp_lexer.gen.mll"
          (
     new_lparen true buf; 
     main buf lexbuf
   )
-# 299 "sexp_lexer.ml"
+# 299 "core/sexp_lexer.ml"
 
   | 4 ->
-# 120 "sexp_lexer.gen.mll"
+# 120 "core/sexp_lexer.gen.mll"
         ( 
     new_lparen false buf ; 
     main buf lexbuf 
   )
-# 307 "sexp_lexer.ml"
+# 307 "core/sexp_lexer.ml"
 
   | 5 ->
-# 124 "sexp_lexer.gen.mll"
+# 124 "core/sexp_lexer.gen.mll"
         ( 
       new_rparen  buf lexbuf; 
       main buf lexbuf 
   )
-# 315 "sexp_lexer.ml"
+# 315 "core/sexp_lexer.ml"
 
   | 6 ->
-# 129 "sexp_lexer.gen.mll"
+# 129 "core/sexp_lexer.gen.mll"
       (
         let pos = Lexing.lexeme_start_p lexbuf in
         scan_string buf.buf pos lexbuf;
@@ -322,38 +322,38 @@ and __ocaml_lex_main_rec buf lexbuf __ocaml_lex_state =
         Buffer.clear buf.buf;
         main buf lexbuf
       )
-# 326 "sexp_lexer.ml"
+# 326 "core/sexp_lexer.ml"
 
   | 7 ->
 let
-# 136 "sexp_lexer.gen.mll"
+# 136 "core/sexp_lexer.gen.mll"
                     s
-# 332 "sexp_lexer.ml"
+# 332 "core/sexp_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 137 "sexp_lexer.gen.mll"
+# 137 "core/sexp_lexer.gen.mll"
     ( push_atom lexbuf (Atom s) buf ; 
       main buf lexbuf
     )
-# 338 "sexp_lexer.ml"
+# 338 "core/sexp_lexer.ml"
 
   | 8 ->
 let
-# 140 "sexp_lexer.gen.mll"
+# 140 "core/sexp_lexer.gen.mll"
          c
-# 344 "sexp_lexer.ml"
+# 344 "core/sexp_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 141 "sexp_lexer.gen.mll"
+# 141 "core/sexp_lexer.gen.mll"
       (  error  lexbuf (Illegal_character c))
-# 348 "sexp_lexer.ml"
+# 348 "core/sexp_lexer.ml"
 
   | 9 ->
-# 143 "sexp_lexer.gen.mll"
+# 143 "core/sexp_lexer.gen.mll"
         (
     if buf.paren_depth > 0 then 
       error lexbuf Unterminated_paren
     else 
       get_data buf )
-# 357 "sexp_lexer.ml"
+# 357 "core/sexp_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_main_rec buf lexbuf __ocaml_lex_state
@@ -363,64 +363,64 @@ and scan_string buf start lexbuf =
 and __ocaml_lex_scan_string_rec buf start lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 150 "sexp_lexer.gen.mll"
+# 150 "core/sexp_lexer.gen.mll"
         ( () )
-# 369 "sexp_lexer.ml"
+# 369 "core/sexp_lexer.ml"
 
   | 1 ->
-# 152 "sexp_lexer.gen.mll"
+# 152 "core/sexp_lexer.gen.mll"
       (
         let len = lexeme_len lexbuf - 2 in
         update_loc lexbuf len;
 
         scan_string buf start lexbuf
       )
-# 379 "sexp_lexer.ml"
+# 379 "core/sexp_lexer.ml"
 
   | 2 ->
-# 159 "sexp_lexer.gen.mll"
+# 159 "core/sexp_lexer.gen.mll"
       (
         let len = lexeme_len lexbuf - 3 in
         update_loc lexbuf len;
         scan_string buf start lexbuf
       )
-# 388 "sexp_lexer.ml"
+# 388 "core/sexp_lexer.ml"
 
   | 3 ->
 let
-# 164 "sexp_lexer.gen.mll"
+# 164 "core/sexp_lexer.gen.mll"
                                                  c
-# 394 "sexp_lexer.ml"
+# 394 "core/sexp_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 1) in
-# 165 "sexp_lexer.gen.mll"
+# 165 "core/sexp_lexer.gen.mll"
       (
         Buffer.add_char buf (char_for_backslash c);
         scan_string buf start lexbuf
       )
-# 401 "sexp_lexer.ml"
+# 401 "core/sexp_lexer.ml"
 
   | 4 ->
 let
-# 169 "sexp_lexer.gen.mll"
+# 169 "core/sexp_lexer.gen.mll"
                    c1
-# 407 "sexp_lexer.ml"
+# 407 "core/sexp_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 1)
 and
-# 169 "sexp_lexer.gen.mll"
+# 169 "core/sexp_lexer.gen.mll"
                                  c2
-# 412 "sexp_lexer.ml"
+# 412 "core/sexp_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 2)
 and
-# 169 "sexp_lexer.gen.mll"
+# 169 "core/sexp_lexer.gen.mll"
                                                c3
-# 417 "sexp_lexer.ml"
+# 417 "core/sexp_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 3)
 and
-# 169 "sexp_lexer.gen.mll"
+# 169 "core/sexp_lexer.gen.mll"
                                                       s
-# 422 "sexp_lexer.ml"
+# 422 "core/sexp_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 4) in
-# 170 "sexp_lexer.gen.mll"
+# 170 "core/sexp_lexer.gen.mll"
       (
         let v = dec_code c1 c2 c3 in
         if v > 255 then
@@ -429,55 +429,55 @@ and
 
         scan_string buf start lexbuf
       )
-# 433 "sexp_lexer.ml"
+# 433 "core/sexp_lexer.ml"
 
   | 5 ->
 let
-# 178 "sexp_lexer.gen.mll"
+# 178 "core/sexp_lexer.gen.mll"
                           c1
-# 439 "sexp_lexer.ml"
+# 439 "core/sexp_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 2)
 and
-# 178 "sexp_lexer.gen.mll"
+# 178 "core/sexp_lexer.gen.mll"
                                            c2
-# 444 "sexp_lexer.ml"
+# 444 "core/sexp_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 3) in
-# 179 "sexp_lexer.gen.mll"
+# 179 "core/sexp_lexer.gen.mll"
       (
         let v = hex_code c1 c2 in
         Buffer.add_char buf (Char.chr v);
 
         scan_string buf start lexbuf
       )
-# 453 "sexp_lexer.ml"
+# 453 "core/sexp_lexer.ml"
 
   | 6 ->
 let
-# 185 "sexp_lexer.gen.mll"
+# 185 "core/sexp_lexer.gen.mll"
                c
-# 459 "sexp_lexer.ml"
+# 459 "core/sexp_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 1) in
-# 186 "sexp_lexer.gen.mll"
+# 186 "core/sexp_lexer.gen.mll"
       (
         Buffer.add_char buf '\\';
         Buffer.add_char buf c;
 
         scan_string buf start lexbuf
       )
-# 468 "sexp_lexer.ml"
+# 468 "core/sexp_lexer.ml"
 
   | 7 ->
-# 193 "sexp_lexer.gen.mll"
+# 193 "core/sexp_lexer.gen.mll"
       (
         update_loc lexbuf 0;
         Buffer.add_char buf lf;
 
         scan_string buf start lexbuf
       )
-# 478 "sexp_lexer.ml"
+# 478 "core/sexp_lexer.ml"
 
   | 8 ->
-# 200 "sexp_lexer.gen.mll"
+# 200 "core/sexp_lexer.gen.mll"
       (
         let ofs = lexbuf.lex_start_pos in
         let len = lexbuf.lex_curr_pos - ofs in
@@ -485,21 +485,21 @@ let
 
         scan_string buf start lexbuf
       )
-# 489 "sexp_lexer.ml"
+# 489 "core/sexp_lexer.ml"
 
   | 9 ->
-# 208 "sexp_lexer.gen.mll"
+# 208 "core/sexp_lexer.gen.mll"
       (
         error lexbuf Unterminated_string
       )
-# 496 "sexp_lexer.ml"
+# 496 "core/sexp_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_scan_string_rec buf start lexbuf __ocaml_lex_state
 
 ;;
 
-# 212 "sexp_lexer.gen.mll"
+# 212 "core/sexp_lexer.gen.mll"
   
 
     let token  lexbuf  =
@@ -515,4 +515,4 @@ let
       | exception  e -> close_in in_channel; raise e 
       | sexps -> close_in in_channel ; sexps
 
-# 519 "sexp_lexer.ml"
+# 519 "core/sexp_lexer.ml"
