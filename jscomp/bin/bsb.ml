@@ -1874,7 +1874,7 @@ val query : path -> t ->  status
 
 end = struct
 #1 "bs_json.ml"
-# 1 "json_lexer.gen.mll"
+# 1 "core/bs_json.gen.mll"
  
 type error =
   | Illegal_character of char
@@ -1991,7 +1991,7 @@ let hex_code c1 c2 =
 
 let lf = '\010'
 
-# 119 "json_lexer.ml"
+# 119 "core/bs_json.ml"
 let __ocaml_lex_tables = {
   Lexing.lex_base = 
    "\000\000\239\255\240\255\241\255\000\000\025\000\011\000\244\255\
@@ -2179,80 +2179,80 @@ let rec lex_json buf lexbuf =
 and __ocaml_lex_lex_json_rec buf lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 137 "json_lexer.gen.mll"
+# 137 "core/bs_json.gen.mll"
           ( lex_json buf lexbuf)
-# 309 "json_lexer.ml"
+# 309 "core/bs_json.ml"
 
   | 1 ->
-# 138 "json_lexer.gen.mll"
+# 138 "core/bs_json.gen.mll"
                    ( 
     update_loc lexbuf 0;
     lex_json buf  lexbuf
   )
-# 317 "json_lexer.ml"
+# 317 "core/bs_json.ml"
 
   | 2 ->
-# 142 "json_lexer.gen.mll"
+# 142 "core/bs_json.gen.mll"
                 ( comment buf lexbuf)
-# 322 "json_lexer.ml"
+# 322 "core/bs_json.ml"
 
   | 3 ->
-# 143 "json_lexer.gen.mll"
+# 143 "core/bs_json.gen.mll"
          ( True)
-# 327 "json_lexer.ml"
+# 327 "core/bs_json.ml"
 
   | 4 ->
-# 144 "json_lexer.gen.mll"
+# 144 "core/bs_json.gen.mll"
           (False)
-# 332 "json_lexer.ml"
+# 332 "core/bs_json.ml"
 
   | 5 ->
-# 145 "json_lexer.gen.mll"
+# 145 "core/bs_json.gen.mll"
          (Null)
-# 337 "json_lexer.ml"
+# 337 "core/bs_json.ml"
 
   | 6 ->
-# 146 "json_lexer.gen.mll"
+# 146 "core/bs_json.gen.mll"
        (Lbracket)
-# 342 "json_lexer.ml"
+# 342 "core/bs_json.ml"
 
   | 7 ->
-# 147 "json_lexer.gen.mll"
+# 147 "core/bs_json.gen.mll"
        (Rbracket)
-# 347 "json_lexer.ml"
+# 347 "core/bs_json.ml"
 
   | 8 ->
-# 148 "json_lexer.gen.mll"
+# 148 "core/bs_json.gen.mll"
        (Lbrace)
-# 352 "json_lexer.ml"
+# 352 "core/bs_json.ml"
 
   | 9 ->
-# 149 "json_lexer.gen.mll"
+# 149 "core/bs_json.gen.mll"
        (Rbrace)
-# 357 "json_lexer.ml"
+# 357 "core/bs_json.ml"
 
   | 10 ->
-# 150 "json_lexer.gen.mll"
+# 150 "core/bs_json.gen.mll"
        (Comma)
-# 362 "json_lexer.ml"
+# 362 "core/bs_json.ml"
 
   | 11 ->
-# 151 "json_lexer.gen.mll"
+# 151 "core/bs_json.gen.mll"
         (Colon)
-# 367 "json_lexer.ml"
+# 367 "core/bs_json.ml"
 
   | 12 ->
-# 152 "json_lexer.gen.mll"
+# 152 "core/bs_json.gen.mll"
                       (lex_json buf lexbuf)
-# 372 "json_lexer.ml"
+# 372 "core/bs_json.ml"
 
   | 13 ->
-# 154 "json_lexer.gen.mll"
+# 154 "core/bs_json.gen.mll"
          ( Number (Lexing.lexeme lexbuf))
-# 377 "json_lexer.ml"
+# 377 "core/bs_json.ml"
 
   | 14 ->
-# 156 "json_lexer.gen.mll"
+# 156 "core/bs_json.gen.mll"
       (
   let pos = Lexing.lexeme_start_p lexbuf in
   scan_string buf pos lexbuf;
@@ -2260,22 +2260,22 @@ and __ocaml_lex_lex_json_rec buf lexbuf __ocaml_lex_state =
   Buffer.clear buf ;
   String content 
 )
-# 388 "json_lexer.ml"
+# 388 "core/bs_json.ml"
 
   | 15 ->
-# 163 "json_lexer.gen.mll"
+# 163 "core/bs_json.gen.mll"
        (Eof )
-# 393 "json_lexer.ml"
+# 393 "core/bs_json.ml"
 
   | 16 ->
 let
-# 164 "json_lexer.gen.mll"
+# 164 "core/bs_json.gen.mll"
        c
-# 399 "json_lexer.ml"
+# 399 "core/bs_json.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 164 "json_lexer.gen.mll"
+# 164 "core/bs_json.gen.mll"
           ( error lexbuf (Illegal_character c ))
-# 403 "json_lexer.ml"
+# 403 "core/bs_json.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_lex_json_rec buf lexbuf __ocaml_lex_state
@@ -2285,19 +2285,19 @@ and comment buf lexbuf =
 and __ocaml_lex_comment_rec buf lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 166 "json_lexer.gen.mll"
+# 166 "core/bs_json.gen.mll"
               (lex_json buf lexbuf)
-# 415 "json_lexer.ml"
+# 415 "core/bs_json.ml"
 
   | 1 ->
-# 167 "json_lexer.gen.mll"
+# 167 "core/bs_json.gen.mll"
      (comment buf lexbuf)
-# 420 "json_lexer.ml"
+# 420 "core/bs_json.ml"
 
   | 2 ->
-# 168 "json_lexer.gen.mll"
+# 168 "core/bs_json.gen.mll"
        (error lexbuf Unterminated_comment)
-# 425 "json_lexer.ml"
+# 425 "core/bs_json.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_comment_rec buf lexbuf __ocaml_lex_state
@@ -2307,64 +2307,64 @@ and scan_string buf start lexbuf =
 and __ocaml_lex_scan_string_rec buf start lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 172 "json_lexer.gen.mll"
+# 172 "core/bs_json.gen.mll"
       ( () )
-# 437 "json_lexer.ml"
+# 437 "core/bs_json.ml"
 
   | 1 ->
-# 174 "json_lexer.gen.mll"
+# 174 "core/bs_json.gen.mll"
   (
         let len = lexeme_len lexbuf - 2 in
         update_loc lexbuf len;
 
         scan_string buf start lexbuf
       )
-# 447 "json_lexer.ml"
+# 447 "core/bs_json.ml"
 
   | 2 ->
-# 181 "json_lexer.gen.mll"
+# 181 "core/bs_json.gen.mll"
       (
         let len = lexeme_len lexbuf - 3 in
         update_loc lexbuf len;
         scan_string buf start lexbuf
       )
-# 456 "json_lexer.ml"
+# 456 "core/bs_json.ml"
 
   | 3 ->
 let
-# 186 "json_lexer.gen.mll"
+# 186 "core/bs_json.gen.mll"
                                                c
-# 462 "json_lexer.ml"
+# 462 "core/bs_json.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 1) in
-# 187 "json_lexer.gen.mll"
+# 187 "core/bs_json.gen.mll"
       (
         Buffer.add_char buf (char_for_backslash c);
         scan_string buf start lexbuf
       )
-# 469 "json_lexer.ml"
+# 469 "core/bs_json.ml"
 
   | 4 ->
 let
-# 191 "json_lexer.gen.mll"
+# 191 "core/bs_json.gen.mll"
                  c1
-# 475 "json_lexer.ml"
+# 475 "core/bs_json.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 1)
 and
-# 191 "json_lexer.gen.mll"
+# 191 "core/bs_json.gen.mll"
                                c2
-# 480 "json_lexer.ml"
+# 480 "core/bs_json.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 2)
 and
-# 191 "json_lexer.gen.mll"
+# 191 "core/bs_json.gen.mll"
                                              c3
-# 485 "json_lexer.ml"
+# 485 "core/bs_json.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 3)
 and
-# 191 "json_lexer.gen.mll"
+# 191 "core/bs_json.gen.mll"
                                                     s
-# 490 "json_lexer.ml"
+# 490 "core/bs_json.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 4) in
-# 192 "json_lexer.gen.mll"
+# 192 "core/bs_json.gen.mll"
       (
         let v = dec_code c1 c2 c3 in
         if v > 255 then
@@ -2373,55 +2373,55 @@ and
 
         scan_string buf start lexbuf
       )
-# 501 "json_lexer.ml"
+# 501 "core/bs_json.ml"
 
   | 5 ->
 let
-# 200 "json_lexer.gen.mll"
+# 200 "core/bs_json.gen.mll"
                         c1
-# 507 "json_lexer.ml"
+# 507 "core/bs_json.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 2)
 and
-# 200 "json_lexer.gen.mll"
+# 200 "core/bs_json.gen.mll"
                                          c2
-# 512 "json_lexer.ml"
+# 512 "core/bs_json.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 3) in
-# 201 "json_lexer.gen.mll"
+# 201 "core/bs_json.gen.mll"
       (
         let v = hex_code c1 c2 in
         Buffer.add_char buf (Char.chr v);
 
         scan_string buf start lexbuf
       )
-# 521 "json_lexer.ml"
+# 521 "core/bs_json.ml"
 
   | 6 ->
 let
-# 207 "json_lexer.gen.mll"
+# 207 "core/bs_json.gen.mll"
              c
-# 527 "json_lexer.ml"
+# 527 "core/bs_json.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 1) in
-# 208 "json_lexer.gen.mll"
+# 208 "core/bs_json.gen.mll"
       (
         Buffer.add_char buf '\\';
         Buffer.add_char buf c;
 
         scan_string buf start lexbuf
       )
-# 536 "json_lexer.ml"
+# 536 "core/bs_json.ml"
 
   | 7 ->
-# 215 "json_lexer.gen.mll"
+# 215 "core/bs_json.gen.mll"
       (
         update_loc lexbuf 0;
         Buffer.add_char buf lf;
 
         scan_string buf start lexbuf
       )
-# 546 "json_lexer.ml"
+# 546 "core/bs_json.ml"
 
   | 8 ->
-# 222 "json_lexer.gen.mll"
+# 222 "core/bs_json.gen.mll"
       (
         let ofs = lexbuf.lex_start_pos in
         let len = lexbuf.lex_curr_pos - ofs in
@@ -2429,21 +2429,21 @@ let
 
         scan_string buf start lexbuf
       )
-# 557 "json_lexer.ml"
+# 557 "core/bs_json.ml"
 
   | 9 ->
-# 230 "json_lexer.gen.mll"
+# 230 "core/bs_json.gen.mll"
       (
         error lexbuf Unterminated_string
       )
-# 564 "json_lexer.ml"
+# 564 "core/bs_json.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_scan_string_rec buf start lexbuf __ocaml_lex_state
 
 ;;
 
-# 234 "json_lexer.gen.mll"
+# 234 "core/bs_json.gen.mll"
  
 
 type js_array =
@@ -2597,7 +2597,7 @@ let query path (json : t ) =
       end
   in aux [] path json
 
-# 725 "json_lexer.ml"
+# 725 "core/bs_json.ml"
 
 end
 module Ext_file_pp : sig 

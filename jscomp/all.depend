@@ -208,6 +208,15 @@ syntax/ast_structure.cmi : syntax/ast_signature.cmi
 syntax/ast_util.cmi : syntax/ast_payload.cmi
 syntax/bs_ast_iterator.cmi :
 syntax/ppx_entry.cmi :
+jscmj_main.cmo : common/js_config.cmi core/js_cmj_format.cmi \
+    ext/ext_string.cmi ext/ext_pp.cmi ext/ext_pervasives.cmi \
+    ext/ext_array.cmi jscmj_main.cmi
+jscmj_main.cmx : common/js_config.cmx core/js_cmj_format.cmx \
+    ext/ext_string.cmx ext/ext_pp.cmx ext/ext_pervasives.cmx \
+    ext/ext_array.cmx jscmj_main.cmi
+jsgen_main.cmo : ext/ext_string.cmi ext/ext_pervasives.cmi ext/ext_array.cmi
+jsgen_main.cmx : ext/ext_string.cmx ext/ext_pervasives.cmx ext/ext_array.cmx
+jscmj_main.cmi :
 depends/ast_extract.cmo : ext/string_map.cmi ext/literals.cmi \
     common/js_config.cmi ext/ext_string.cmi ext/ext_pervasives.cmi \
     ext/ext_list.cmi ext/ext_format.cmi ext/ext_filename.cmi \
@@ -233,7 +242,7 @@ core/bs_build_ui.cmo : ext/string_map.cmi ext/ext_filename.cmi \
     ext/ext_file_pp.cmi ext/ext_array.cmi core/bs_json.cmi core/bs_dir.cmi \
     core/bs_build_schemas.cmx depends/binary_cache.cmi core/bs_build_ui.cmi
 core/bs_build_ui.cmx : ext/string_map.cmx ext/ext_filename.cmx \
-    ext/ext_file_pp.cmx ext/ext_array.cmx core/bs_json.cmx core/bs_dir.cmx \
+    ext/ext_file_pp.cmx ext/ext_array.cmx core/bs_json.cmi core/bs_dir.cmx \
     core/bs_build_schemas.cmx depends/binary_cache.cmx core/bs_build_ui.cmi
 core/bs_conditional_initial.cmo : common/js_config.cmi \
     core/bs_conditional_initial.cmi
@@ -243,8 +252,6 @@ core/bs_dep_infos.cmo : core/bs_dep_infos.cmi
 core/bs_dep_infos.cmx : core/bs_dep_infos.cmi
 core/bs_dir.cmo : core/bs_dir.cmi
 core/bs_dir.cmx : core/bs_dir.cmi
-core/bs_json.cmo : ext/string_map.cmi ext/ext_array.cmi core/bs_json.cmi
-core/bs_json.cmx : ext/string_map.cmx ext/ext_array.cmx core/bs_json.cmi
 core/bs_ninja.cmo : ext/string_set.cmi ext/literals.cmi ext/ext_filename.cmi \
     depends/binary_cache.cmi core/bs_ninja.cmi
 core/bs_ninja.cmx : ext/string_set.cmx ext/literals.cmx ext/ext_filename.cmx \
@@ -254,7 +261,7 @@ core/bsb_main.cmo : ext/string_map.cmi ext/ext_list.cmi ext/ext_filename.cmi \
     core/bs_dep_infos.cmi core/bs_build_ui.cmi core/bs_build_schemas.cmx \
     depends/binary_cache.cmi core/bsb_main.cmi
 core/bsb_main.cmx : ext/string_map.cmx ext/ext_list.cmx ext/ext_filename.cmx \
-    ext/ext_file_pp.cmx ext/ext_array.cmx core/bs_ninja.cmx core/bs_json.cmx \
+    ext/ext_file_pp.cmx ext/ext_array.cmx core/bs_ninja.cmx core/bs_json.cmi \
     core/bs_dep_infos.cmx core/bs_build_ui.cmx core/bs_build_schemas.cmx \
     depends/binary_cache.cmx core/bsb_main.cmi
 core/bspack_main.cmo : ext/ext_string.cmi ext/ext_pervasives.cmi \
@@ -337,10 +344,6 @@ core/js_fold_basic.cmx : core/lam_module_ident.cmx core/js_fold.cmx \
     ext/ext_ident.cmx core/js_fold_basic.cmi
 core/js_fun_env.cmo : ext/ident_set.cmi ext/ext_list.cmi core/js_fun_env.cmi
 core/js_fun_env.cmx : ext/ident_set.cmx ext/ext_list.cmx core/js_fun_env.cmi
-core/js_generate_require.cmo : ext/ext_string.cmi ext/ext_pervasives.cmi \
-    ext/ext_array.cmi
-core/js_generate_require.cmx : ext/ext_string.cmx ext/ext_pervasives.cmx \
-    ext/ext_array.cmx
 core/js_implementation.cmo : core/ocaml_parse.cmi ext/literals.cmi \
     core/lam_compile_group.cmi common/js_config.cmi ext/ext_pervasives.cmi \
     common/ext_log.cmi syntax/bs_ast_invariant.cmx depends/binary_ast.cmi \
@@ -413,12 +416,6 @@ core/js_output.cmo : core/lam_compile_defs.cmi core/lam_analysis.cmi \
 core/js_output.cmx : core/lam_compile_defs.cmx core/lam_analysis.cmx \
     core/lam.cmx core/js_stmt_make.cmx core/js_exp_make.cmx core/js_dump.cmx \
     core/js_analyzer.cmx core/j.cmx core/js_output.cmi
-core/js_pack.cmo : common/js_config.cmi core/js_cmj_format.cmi \
-    ext/ext_string.cmi ext/ext_pp.cmi ext/ext_pervasives.cmi \
-    ext/ext_array.cmi core/js_pack.cmi
-core/js_pack.cmx : common/js_config.cmx core/js_cmj_format.cmx \
-    ext/ext_string.cmx ext/ext_pp.cmx ext/ext_pervasives.cmx \
-    ext/ext_array.cmx core/js_pack.cmi
 core/js_pass_debug.cmo : core/js_dump.cmi common/js_config.cmi core/j.cmx \
     ext/ext_pervasives.cmi ext/ext_filename.cmi core/js_pass_debug.cmi
 core/js_pass_debug.cmx : core/js_dump.cmx common/js_config.cmx core/j.cmx \
@@ -724,11 +721,9 @@ core/ocaml_parse.cmx : syntax/ppx_entry.cmx common/js_config.cmx \
 core/ocaml_stdlib_slots.cmo :
 core/ocaml_stdlib_slots.cmx :
 core/script.cmo : core/sexp_lexer.cmi core/sexp_eval.cmx core/bs_json.cmi
-core/script.cmx : core/sexp_lexer.cmx core/sexp_eval.cmx core/bs_json.cmx
+core/script.cmx : core/sexp_lexer.cmi core/sexp_eval.cmx core/bs_json.cmi
 core/sexp_eval.cmo : core/sexp_lexer.cmi ext/ext_list.cmi
-core/sexp_eval.cmx : core/sexp_lexer.cmx ext/ext_list.cmx
-core/sexp_lexer.cmo : core/sexp_lexer.cmi
-core/sexp_lexer.cmx : core/sexp_lexer.cmi
+core/sexp_eval.cmx : core/sexp_lexer.cmi ext/ext_list.cmx
 core/type_int_to_string.cmo :
 core/type_int_to_string.cmx :
 core/type_util.cmo : core/type_int_to_string.cmx common/ext_log.cmi \
@@ -778,7 +773,6 @@ core/js_of_lam_tuple.cmi : core/j.cmx
 core/js_of_lam_variant.cmi : core/j.cmx
 core/js_op_util.cmi : core/js_op.cmx core/j.cmx
 core/js_output.cmi : core/lam_compile_defs.cmi core/lam.cmi core/j.cmx
-core/js_pack.cmi :
 core/js_pass_debug.cmi : core/j.cmx
 core/js_pass_flatten.cmi : core/j.cmx
 core/js_pass_flatten_and_mark_dead.cmi : core/j.cmx

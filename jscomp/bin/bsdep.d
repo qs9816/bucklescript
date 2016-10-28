@@ -40,8 +40,6 @@ bin/bsdep.ml : common/js_config.ml
 bin/bsdep.ml : common/js_config.mli
 bin/bsdep.ml : depends/ast_extract.ml
 bin/bsdep.ml : depends/ast_extract.mli
-bin/bsdep.ml : ../ocaml/driver/compenv.ml
-bin/bsdep.ml : ../ocaml/driver/compenv.mli
 bin/bsdep.ml : ../ocaml/parsing/docstrings.ml
 bin/bsdep.ml : ../ocaml/parsing/docstrings.mli
 bin/bsdep.ml : ../ocaml/parsing/ast_helper.ml
@@ -52,6 +50,10 @@ bin/bsdep.ml : ../ocaml/parsing/parser.ml
 bin/bsdep.ml : ../ocaml/parsing/parser.mli
 bin/bsdep.ml : ../ocaml/parsing/lexer.ml
 bin/bsdep.ml : ../ocaml/parsing/lexer.mli
+bin/bsdep.ml : core/bs_conditional_initial.ml
+bin/bsdep.ml : core/bs_conditional_initial.mli
+bin/bsdep.ml : ../ocaml/driver/compenv.ml
+bin/bsdep.ml : ../ocaml/driver/compenv.mli
 bin/bsdep.ml : ../ocaml/parsing/parse.ml
 bin/bsdep.ml : ../ocaml/parsing/parse.mli
 bin/bsdep.ml : ../ocaml/parsing/ast_mapper.ml

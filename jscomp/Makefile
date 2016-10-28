@@ -27,7 +27,7 @@ core/bs_json.ml: core/bs_json.gen.mll
 	@echo "Regenerating sexp_lexer.ml"
 	$(OCAMLLEX) $< -o $@ || (rm $@ && exit 2)
 clean:
-	rm core/bs_json.ml core/sexp_lexer.ml core/js_fold.ml core/js_map.ml
+	rm -f core/bs_json.ml core/sexp_lexer.ml core/js_fold.ml core/js_map.ml
 	git clean -dfx ext common syntax depends core 
 
 
@@ -84,8 +84,29 @@ COMPFLAGS= -g -w -40-30 -warn-error +a-40-30
 bin/bsc.exe: ext.cmxa common.cmxa syntax.cmxa depends.cmxa core.cmxa core/js_main.cmx
 	@echo "Linking"
 	$(NATIVE) -g -linkall -I +compiler-libs ocamlcommon.cmxa $^ -o $@
+bin/jscmj.exe:ext.cmxa common.cmxa syntax.cmxa depends.cmxa core.cmxa  jscmj_main.cmx
+	@echo "Linking js_pack.exe"
+	$(NATIVE) -g -linkall -I +compiler-libs ocamlcommon.cmxa $^ -o $@
 
-all-compiler: bin/bsc.exe core/bsppx_main.cmx core/bspack_main.cmx core/jsoo_main.cmx core/bspp_main.cmx core/js_generate_require.cmx core/js_pack.cmx core/js_cmi_datasets.cmx core/bs_dep_infos.cmx core/bs_dir.cmx  core/sexp_lexer.cmx bin/bsc.exe
+bin/jsgen.exe:ext.cmxa jsgen_main.cmx
+	$(NATIVE) -g -linkall -I +compiler-libs ocamlcommon.cmxa $^ -o $@
+
+all-compiler: bin/bsc.exe core/bsppx_main.cmx core/bspack_main.cmx\
+	core/jsoo_main.cmx \
+	core/bspp_main.cmx \
+	core/js_generate_require.cmx\
+	core/js_pack.cmx\
+	core/js_cmi_datasets.cmx\
+	core/bs_dep_infos.cmx \
+	core/bs_dir.cmx\
+	core/bs_json.cmx\
+	core/sexp_lexer.cmx\
+	core/sexp_eval.cmx\
+	core/bsb_main.cmx\
+	core/bs_ninja.cmx\
+	core/bs_build_ui.cmx\
+	core/bs_build_schemas.cmx\
+	bin/bsc.exe
 
 .PHONY: all-compiler
 
@@ -110,8 +131,6 @@ depend:
 # this target  is used to make snapshotml
 ./bin/bspack.exe: bin/config_bspack.mli bin/config_bspack.ml bin/bspack.mli bin/bspack.ml
 	$(MAKE) -C bin bspack.exe
-snapshot: ./bin/bspack.exe snapshotcmj
-	$(MAKE) snapshotml
 
 
 # TODO
@@ -121,27 +140,33 @@ snapshotml:./bin/bspack.exe bin/bsppx.ml bin/whole_compiler.ml bin/bsdep.ml bin/
 
 bin/bsppx.ml:./bin/bspack.exe
 	$< -bs-MD  -prelude-str 'module Config = Config_bsppx'  -bs-exclude-I config -I ../ocaml/utils/ -I ../ocaml/parsing/ -I common -I ext -I syntax -I core -bs-main Bsppx_main -o $@
-include bin/bsppx.d
+-include bin/bsppx.d
 
 bin/whole_compiler.ml:./bin/bspack.exe 
 	$< -bs-MD -prelude-str 'module Config = Config_whole_compiler' -bs-exclude-I config -o $@ -bs-main Js_main -I ../ocaml/utils/ -I ../ocaml/parsing/ -I ../ocaml/typing/ -I ../ocaml/bytecomp/ -I ../ocaml/driver/ -I ext -I syntax -I depends -I common -I core
-include bin/whole_compiler.d
+-include bin/whole_compiler.d
 
 bin/bsdep.ml:./bin/bspack.exe 
-	BS_OCAMLDEP=true $< -bs-MD  -prelude-str 'module Config = Config_bsdep'  -bs-exclude-I config -I ../ocaml/utils/ -I ../ocaml/parsing/ -I ../ocaml/driver -I ../ocaml/tools -I common -I ext -I syntax -I depends  -bs-main Ocamldep -o $@
-include bin/bsdep.d
+	BS_OCAMLDEP=true $< -bs-MD  -prelude-str 'module Config = Config_bsdep'  -bs-exclude-I config -I ../ocaml/utils/ -I ../ocaml/parsing/ -I ../ocaml/driver -I ../ocaml/tools -I common -I ext -I syntax -I depends -I core  -bs-main Ocamldep -o $@
+-include bin/bsdep.d
 
 bin/bsb.ml:./bin/bspack.exe 
 	$< -bs-MD -I common -I ext -I syntax -I depends -I core -bs-main Bsb_main -o bin/bsb.ml
 include bin/bsb.d
 bin/bspp.ml:./bin/bspack.exe 
 	BS_MIN_LEX_DEPS=true $< -bs-MD   -bs-exclude-I config -I ../ocaml/utils/ -I ../ocaml/parsing?parser  -I common -I ext -I syntax -I depends -I bspp -I core -bs-main Bspp_main -o $@
-include bin/bspack.d
+-include bin/bspack.d
 
+bin/js_compiler.ml:./bin/bspack.exe
+	BS_COMPILER_IN_BROWSER=true bspack.exe -bs-MD  -prelude-str 'module Config = Config_whole_compiler' -bs-exclude-I config -o $@ -bs-main Jsoo_main -I ../ocaml/utils/ -I ../ocaml/parsing/ -I ../ocaml/typing/ -I ../ocaml/bytecomp/ -I ../ocaml/driver/ -I ext -I syntax -I depends -I common -I core
+-include bin/js_compiler.d
 
-snapshotcmj:
-	@echo "Collecting cmj files"
-	ocamlbuild -cflags $(OCAMLBUILD_CFLAGS)	 -lflags -I,+compiler-libs,ocamlcommon.cmxa js_pack.native --
+bin/js_compiler.byte:bin/js_compiler.mli bin/js_compiler.ml
+	ocamlc.opt -w -a -I bin bin/config_whole_compiler.mli bin/config_whole_compiler.ml $^ -no-check-prims -o $@
+
+../docs/js-demo/exports.js:
+	js_of_ocaml  --toplevel +weak.js +toplevel.js  ./polyfill.js bin/js_compiler.byte -I ./others/ -I ./runtime/ --file js.cmi:/cmis/js.cmi --file js_unsafe.cmi:/cmis/js_unsafe.cmi --file js_re.cmi:/cmis/js_re.cmi --file js_array.cmi:/cmis/js_array.cmi --file js_null.cmi:/cmis/js_null.cmi --file js_undefined.cmi:/cmis/js_undefined.cmi --file js_types.cmi:/cmis/js_types.cmi --file js_null_undefined.cmi:/cmis/js_null_undefined.cmi --file js_dict.cmi:/cmis/js_dict.cmi --file js_string.cmi:/cmis/js_string.cmi   -o $@
+
 
 # git diff bin/bspack.ml
 # bootbspack requires ../ocaml has parser, lexer processed by ocamlyacc and ocamllex
@@ -179,15 +204,18 @@ libs:
 	cd others && $(MAKE) all
 	@echo "Making others finished"
 
-releasebuild:
-	@echo "Make release compiler"
-	$(MAKE) -C bin all 
-
-release:snapshot
-	$(MAKE) releasebuild
 
 
-world:
+release:bin/bspack.exe bin/jscmj.exe bin/jsgen.exe snapshotml
+	@echo "Collecting cmj files"
+	@echo "Generating cmj_datasets"
+	bin/jscmj.exe # for cmj file up to date
+	@echo "Generating preload.js"
+	bin/jsgen.exe # for js file up to date 
+	$(MAKE) -C bin -j6 all
+	$(MAKE) libs
+
+world:snapshotml
 	@echo "Making compiler"
 	$(MAKE) -C bin -j 6 all
 	@echo "Making compiler finished"
@@ -195,10 +223,6 @@ world:
 
 
 travis-world-test:
-	$(MAKE) -C bin bspack.exe
-	@echo "Generating the compiler"
-	rm -f bin/compiler.ml bin/bsppx.ml
-	$(MAKE) snapshotml
 	@echo "Generating the compiler finished"
 	$(MAKE) world
 	@echo "Making test"
